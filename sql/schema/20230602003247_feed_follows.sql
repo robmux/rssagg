@@ -1,15 +1,16 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-CREATE TABLE users (
+CREATE TABLE feed_follows(
     id UUID PRIMARY KEY,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
-    name TEXT NOT NULL
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    feed_id UUID NOT NULL references feeds(id) ON DELETE CASCADE,
+    UNIQUE (user_id, feed_id)
 );
 -- +goose StatementEnd
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE users;
+DROP TABLE feed_follows;
 -- +goose StatementEnd
