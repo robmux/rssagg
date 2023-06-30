@@ -16,7 +16,7 @@ type User struct {
 	APIKey    string    `json:"api_key"`
 }
 
-func databaseUserToUser(dbUser database.User) User {
+func dbUserToUser(dbUser database.User) User {
 	return User{
 		ID:        dbUser.ID,
 		CreatedAt: dbUser.CreatedAt,
@@ -35,7 +35,7 @@ type Feed struct {
 	UserID    uuid.UUID `json:"user_id"`
 }
 
-func databaseFeedToFeed(dbFeed database.Feed) Feed {
+func dbFeedToFeed(dbFeed database.Feed) Feed {
 	return Feed{
 		ID:        dbFeed.ID,
 		CreatedAt: dbFeed.CreatedAt,
@@ -46,10 +46,10 @@ func databaseFeedToFeed(dbFeed database.Feed) Feed {
 	}
 }
 
-func databaseFeedsToFeeds(dbFeeds []database.Feed) []Feed {
+func dbFeedsToFeeds(dbFeeds []database.Feed) []Feed {
 	feeds := make([]Feed, 0, len(dbFeeds))
 	for _, dbFeed := range dbFeeds {
-		feeds = append(feeds, databaseFeedToFeed(dbFeed))
+		feeds = append(feeds, dbFeedToFeed(dbFeed))
 	}
 	return feeds
 }
