@@ -23,6 +23,12 @@ func (apiCfg *apiConfig) handlerCreateFeed(w http.ResponseWriter, r *http.Reques
 	err := decoder.Decode(&params)
 	if err != nil {
 		respondWithError(w, 400, fmt.Sprintf("error parsing json: %v", err))
+		return
+	}
+
+	if params.URL == "" || params.Name == "" {
+		respondWithError(w, 400, "Invalid request, missing parameters")
+		return
 	}
 
 	feed, err := apiCfg.DB.CreateFeed(r.Context(), database.CreateFeedParams{

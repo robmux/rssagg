@@ -32,8 +32,9 @@ func main() {
 		log.Fatalf("Error opening db connection %v", err)
 	}
 
+	// Link sqlc queries with the db connection
 	dbQueries := database.New(db)
-	apiconfig := apiConfig{DB: dbQueries}
+	apiConfig := apiConfig{DB: dbQueries}
 
 	portStr := os.Getenv("PORT")
 	if portStr == "" {
@@ -55,17 +56,17 @@ func main() {
 	v1Router.Get("/readiness", handlerReadiness)
 	v1Router.Get("/err", handlerErr)
 
-	v1Router.Post("/users", apiconfig.handlerCreateUser)
-	v1Router.Get("/users", apiconfig.middlewareAuth(apiconfig.handlerGetUser))
+	v1Router.Post("/users", apiConfig.handlerCreateUser)
+	v1Router.Get("/users", apiConfig.middlewareAuth(apiConfig.handlerGetUser))
 
 	// Feeds
-	v1Router.Post("/feeds", apiconfig.middlewareAuth(apiconfig.handlerCreateFeed))
-	v1Router.Get("/feeds", apiconfig.handlerGetFeeds)
+	v1Router.Post("/feeds", apiConfig.middlewareAuth(apiConfig.handlerCreateFeed))
+	v1Router.Get("/feeds", apiConfig.handlerGetFeeds)
 
 	// Feed Follows
-	v1Router.Post("/feed_follows", apiconfig.middlewareAuth(apiconfig.handlerCreateFeedFollow))
-	v1Router.Delete("/feed_follows/{feedFollowID}", apiconfig.middlewareAuth(apiconfig.handlerDeleteFeedFollow))
-	v1Router.Get("/feed_follows", apiconfig.middlewareAuth(apiconfig.handlerGetFeedFollows))
+	v1Router.Post("/feed_follows", apiConfig.middlewareAuth(apiConfig.handlerCreateFeedFollow))
+	v1Router.Delete("/feed_follows/{feedFollowID}", apiConfig.middlewareAuth(apiConfig.handlerDeleteFeedFollow))
+	v1Router.Get("/feed_follows", apiConfig.middlewareAuth(apiConfig.handlerGetFeedFollows))
 
 	router.Mount("/v1", v1Router)
 

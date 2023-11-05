@@ -1,3 +1,19 @@
+all: help
+
+help:
+	@echo "RSS Agg Commands"
+	@echo ""
+	@echo "run:      Run application loading .env"
+	@echo "mocks:    Generate mocks with mockery."
+	@echo "swagger:  Generate swagger documentation."
+	@echo "test:     Run application tests."
+	@echo "lint:     Run golangci-lint."
+	@echo "swaggo:   Install Swaggo"
+
+
+swaggo:
+	@go install github.com/swaggo/swag/cmd/swag@v1.8.9
+
 # Go variables
 GO          := go
 GOFLAGS     :=
